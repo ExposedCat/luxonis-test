@@ -1,0 +1,27 @@
+{
+  "name": "template",
+  "version": "1.0.0",
+  "description": "",
+  "main": "build/index.js",
+  "scripts": {
+    "compile": "npx tsc",
+    "start": "npm run compile && node .",
+    "pretty": "npx prettier src --write"
+  },
+  "keywords": [
+    "stream",
+    "regex"
+  ],
+  "author": "ExposedCat",
+  "license": "GPL-3.0-or-later",
+  "engines": {
+    "node": ">=4",
+    "npm": ">=2"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.1",
+    "prettier": "^2.7.1",
+    "typescript": "^4.7.4"
+  },
+  "type": "module"
+}
