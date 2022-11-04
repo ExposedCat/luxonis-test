@@ -1,4 +1,4 @@
-import { Apartment } from '../types/index.js'
+import { Apartment, Selector } from '../types/index.js'
 import puppeteer, { Page } from 'puppeteer'
 
 async function destroyParser(parser: Page) {
@@ -18,8 +18,32 @@ async function createParser() {
 	return page
 }
 
+function parseApartments(
+	apartments: Element[],
+	titleSelector: string
+): Apartment[] {
+	return apartments.map(apartment => {
+		const titleTag = apartment.querySelector(
+			titleSelector
+		) as HTMLSpanElement
+
+		return {
+			title: titleTag?.innerText,
+			images: [] as string[]
+		}
+	})
+}
+
 async function parsePage(page: Page): Promise<Apartment[]> {
-	return [{ title: 'test', images: [] }]
+	await page.waitForSelector(Selector.APARTMENT, {
+		timeout: process.env.TIMEOUT
+	})
+	const apartments = await page.$$eval(
+		Selector.APARTMENT,
+		parseApartments,
+		Selector.TITLE
+	)
+	return apartments
 }
 
 export { createParser, parsePage, destroyParser }
