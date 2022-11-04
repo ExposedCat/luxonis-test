@@ -7,14 +7,21 @@ async function destroyParser(parser: Page) {
 
 // Opens headless browser on a specific page
 async function createParser() {
-	const parser = await puppeteer.launch()
+	const parser = await puppeteer.launch({
+		args: ['--incognito'],
+		headless: false
+	})
 	const page = await parser.newPage()
-	// Open first page
-	await page.goto(process.env.BASE_PAGE_URI + 1)
+	const host = new URL(process.env.BASE_PAGE_URI).host
+	await page.setCookie({
+		name: 'per_page',
+		value: process.env.APARTMENTS_PER_PAGE,
+		domain: host
+	})
+	await page.goto(process.env.BASE_PAGE_URI + 1, {
+		waitUntil: ['domcontentloaded']
+	})
 	// TODO: Deal with cookies popup
-	// await page.screenshot({
-	// 	path: './test.png'
-	// })
 	return page
 }
 
@@ -45,9 +52,18 @@ function parseApartments(
 }
 
 async function parsePage(page: Page): Promise<Apartment[]> {
-	await page.waitForSelector(Selector.APARTMENT, {
-		timeout: process.env.TIMEOUT
-	})
+	try {
+		await page.waitForSelector(Selector.APARTMENT, {
+			timeout: process.env.TIMEOUT
+		})
+	} catch (error) {
+		// Capture screen at the moment of error
+		await page.screenshot({
+			path: './error.png'
+		})
+		console.error(error)
+		return []
+	}
 	const apartments = await page.$$eval(
 		Selector.APARTMENT,
 		parseApartments,
