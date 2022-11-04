@@ -1,5 +1,6 @@
 interface Apartment {
 	title: string
+	address: string
 	images: string[]
 }
 

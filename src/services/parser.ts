@@ -20,16 +20,26 @@ async function createParser() {
 
 function parseApartments(
 	apartments: Element[],
-	titleSelector: string
+	titleSelector: string,
+	imageSelector: string,
+	addressSelector: string
 ): Apartment[] {
 	return apartments.map(apartment => {
 		const titleTag = apartment.querySelector(
 			titleSelector
 		) as HTMLSpanElement
-
+		const addressTag = apartment.querySelector(
+			addressSelector
+		) as HTMLSpanElement
+		const imageTags = apartment.querySelectorAll(imageSelector) as NodeList
+		const imageUrls = Array.from(
+			imageTags,
+			image => (image as HTMLImageElement).src
+		)
 		return {
 			title: titleTag?.innerText,
-			images: [] as string[]
+			images: imageUrls,
+			address: addressTag?.innerText
 		}
 	})
 }
@@ -41,7 +51,9 @@ async function parsePage(page: Page): Promise<Apartment[]> {
 	const apartments = await page.$$eval(
 		Selector.APARTMENT,
 		parseApartments,
-		Selector.TITLE
+		Selector.TITLE,
+		Selector.IMAGE,
+		Selector.ADDRESS
 	)
 	return apartments
 }
