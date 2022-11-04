@@ -1,1 +1,2 @@
-export {initApp} from './app.js'
+export { initApp } from './app.js'
+export { startParser } from './parser.js'

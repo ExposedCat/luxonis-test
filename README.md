@@ -1,5 +1,5 @@
 <div align="center">
-    <h1>TypeScript Template</h1>
+    <h1>TypeScipt Test Task | Luxonis</h1>
 
 <a href="https://t.me/ExposedCatDev">
 
@@ -17,23 +17,27 @@
     <h2>⭐️ Features</h2>
 </div>
 <ul>
+    <li>Dynamic pages parsing</li>
+    <li>Pagination support</li>
+    <li>Cookies-safe parsing</li>
+    <li>Docker support</li>
     <li>Strict code formatting rules</li>
     <li>Scalable file architecture</li>
     <li>Well-readable git repository with a beautiful README</li>
 </ul>
 
-<div align="center">
+<!-- <div align="center">
     <h2>💼 TODO</h2>
 </div>
 <ul>
-    <li><s>Add formatting rules</s></a></li>
-    <li><s>Add preview</s></a></li>
-</ul>
+    <li><s>Task</s></a></li>
+</ul> -->
 
 <div align="center">
     <h2>⚙️ Stack</h2>
 </div>
 <ul>
+    <li>Parsing tool: Puppeteer</li>
     <li>Programming language: TypeScript</li>
     <li>Running tools: Node.JS</li>
 </ul>
@@ -49,17 +53,17 @@
 1. Clone this repo:
 
 ```bash
-git clone https://github.com/ExposedCat/typescript-template.git
+git clone https://github.com/ExposedCat/luxonis-test.git
 ```
 
 2. Go to the project root:
 
 ```bash
-cd typescript-template
+cd luxonis-test
 ```
 
 3. Create copy of `.env-example` called `.env` and replace example data with yours
-4. Start app (specify name of the config created before):
+4. Start app:
 
 ```bash
 npm start
@@ -68,11 +72,69 @@ npm start
 **Done**.
 
 <div align="center">
+    <h2>via Docker</h2>
+</div>
+
+1. Clone this repo:
+
+```bash
+git clone https://github.com/ExposedCat/luxonis-test.git
+```
+
+2. Go to the project root:
+
+```bash
+cd luxonis-test
+```
+
+3. Create copy of `.env-example` called `.env` and replace example data with yours
+4. Start app  
+   4.1. Via bash script:
+
+    ```bash
+    bash ./run-docker
+    ```
+
+    OR  
+
+    Give a try to the [Podman](https://podman.io/) - modern Docker-compatible containerization utility:
+
+    ```bash
+    bash ./run-podman
+    ```
+
+    4.2. Manually  
+    4.2.1. Build image:
+
+    ```bash
+    docker build -t sreality-parser .
+    ```
+    OR
+
+    ```bash
+    podman build -t sreality-parser .
+    ```
+
+    4.2.2. Run image:
+
+    ```bash
+    docker-compose up -d --build
+    ```
+
+    OR
+
+    ```bash
+    podman-compose up -d --build
+    ```
+  
+**Done**.
+
+<div align="center">
     <h2>🔩 Dependencies</h2>
 </div>
 <h3>Production</h3>
 <ul>
-    <!-- <li></li> -->
+    <li>Puppeteer</li>
 </ul>
 <h3>Development</h3>
 <ul>

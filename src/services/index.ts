@@ -1,1 +1,1 @@
-export { dummyService } from './dummy.js'
+export { createParser, parsePage, destroyParser } from './parser.js'
