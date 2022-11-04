@@ -1,0 +1,4 @@
+#!/bin/bash
+
+podman build -t sreality-parser .
+podman-compose up -d --build
