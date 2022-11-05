@@ -7,10 +7,6 @@ function loadEnv(configName = '.env') {
 	dotenv.config({
 		path: fullPath
 	})
-	// Fix types (each environment variable is a string)
-	if (process.env.TIMEOUT !== undefined) {
-		process.env.TIMEOUT = Number(process.env.TIMEOUT)
-	}
 }
 
 export { loadEnv }

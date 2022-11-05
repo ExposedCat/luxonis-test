@@ -4,6 +4,7 @@ export declare global {
 			BASE_PAGE_URI: string
 			APARTMENTS_PER_PAGE: string
 			TIMEOUT: number
+			SHOW_BROWSER: string
 		}
 	}
 }

@@ -8,8 +8,7 @@ async function destroyParser(parser: Page) {
 // Opens headless browser on a specific page
 async function createParser() {
 	const parser = await puppeteer.launch({
-		args: ['--incognito'],
-		headless: false
+		headless: process.env.SHOW_BROWSER !== 'true'
 	})
 	const page = await parser.newPage()
 	const host = new URL(process.env.BASE_PAGE_URI).host
@@ -61,8 +60,7 @@ async function parsePage(page: Page): Promise<Apartment[]> {
 		await page.screenshot({
 			path: './error.png'
 		})
-		console.error(error)
-		return []
+		throw error
 	}
 	const apartments = await page.$$eval(
 		Selector.APARTMENT,
