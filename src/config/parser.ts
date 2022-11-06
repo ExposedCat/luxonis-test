@@ -1,11 +1,14 @@
-import { createParser, destroyParser, parsePage } from '../services/index.js'
+import { Apartment } from '../types/index.js'
+import { createParser, parsePage } from '../services/index.js'
 
-// TODO: Add function to process parsed data
-async function startParser() {
+async function startParser(
+	callback: (apartments: Apartment[]) => Promise<void> | void
+) {
 	const parser = await createParser()
 	const apartments = await parsePage(parser)
 	console.info(apartments)
-	await destroyParser(parser)
+	await callback(apartments)
+	return parser
 }
 
 export { startParser }

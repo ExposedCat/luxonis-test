@@ -6,6 +6,7 @@
   "scripts": {
     "compile": "npx tsc",
     "start": "npm run compile && node .",
+    "initDb": "sudo -u postgres psql < init-db.sql",
     "pretty": "npx prettier src --write"
   },
   "keywords": [
@@ -26,6 +27,7 @@
   "type": "module",
   "dependencies": {
     "dotenv": "^16.0.3",
+    "pg-promise": "^10.12.1",
     "puppeteer": "^19.2.2"
   }
 }

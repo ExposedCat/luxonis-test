@@ -1,9 +1,8 @@
-interface Apartment {
-	title: string
-	address: string
-	images: string[]
-}
+import { Page } from 'puppeteer'
+import { Apartment } from './index.js'
+
+type Parser = Page
 
 type DataHandler = (apartments: Apartment[]) => void
 
-export { Apartment, DataHandler }
+export { DataHandler, Parser }
