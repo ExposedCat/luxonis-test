@@ -2,26 +2,18 @@ import { IDatabase } from 'pg-promise'
 
 type Database = IDatabase<{}>
 
-interface DbImageURL {
-	apartment_id: number
-	url: string
-}
-
-interface ImageURL {
-	apartmentId: number
-	url: string
-}
-
-interface DbApartment {
-	apartment_id: number
-	title: string
-	address: string
-}
-
 interface Apartment {
 	title: string
 	address: string
 	images: string[]
 }
 
-export { Database, DbImageURL, ImageURL, DbApartment, Apartment }
+// Image URL object for insertion
+// Structure: [apartment_id, url]
+type PreparedImageURLs = Array<number | string>
+
+interface ApartmentIdObject {
+	apartment_id: number
+}
+
+export { Database, PreparedImageURLs, Apartment, ApartmentIdObject }

@@ -10,7 +10,7 @@ async function connectToDatabase() {
 		user: process.env.DB_USER,
 		password: process.env.DB_PASSWORD
 	})
-	return { database, helpers: postgres.helpers }
+	return { database, client: postgres }
 }
 
 export { connectToDatabase }

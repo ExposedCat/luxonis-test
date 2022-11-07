@@ -1,4 +1,4 @@
-import { Database, DatabaseHelpers, Parser } from '../types/index.js'
+import { Database, DatabaseClient, Parser } from '../types/index.js'
 import { loadEnv, validateEnv } from '../helpers/index.js'
 import { connectToDatabase, startParser } from './index.js'
 import { createApartmentsHandler, destroyParser } from '../services/index.js'
@@ -12,12 +12,12 @@ async function startApp() {
 		process.exit(1)
 	}
 
-	let helpers: DatabaseHelpers
+	let client: DatabaseClient
 	let database: Database
 	try {
 		const connectedDb = await connectToDatabase()
 		database = connectedDb.database
-		helpers = connectedDb.helpers
+		client = connectedDb.client
 	} catch (error) {
 		console.error(`Error occurred while connecting to the database:`, error)
 		process.exit(2)
@@ -25,7 +25,7 @@ async function startApp() {
 
 	let parser: Parser
 	try {
-		parser = await startParser(createApartmentsHandler(database, helpers))
+		parser = await startParser(createApartmentsHandler(database, client))
 	} catch (error) {
 		console.error(`Error occurred while starting the parser:`, error)
 		process.exit(3)

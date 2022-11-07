@@ -6,7 +6,6 @@ async function startParser(
 ) {
 	const parser = await createParser()
 	const apartments = await parsePage(parser)
-	console.info(apartments)
 	await callback(apartments)
 	return parser
 }

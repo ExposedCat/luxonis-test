@@ -1,15 +1,55 @@
-import { Apartment, DatabaseHelpers } from '../types/index.js'
+import { Apartment, DatabaseClient, PreparedImageURLs } from '../types/index.js'
 
-const templates = {
-	insertApartmentTemplate: (helpers: DatabaseHelpers) =>
-		new helpers.ColumnSet(['title', 'address'], {
-			table: process.env.DB_APARTMENTS_TABLE
-		})
+function tuple(count: number) {
+	console.log(count)
+	let result = ``
+	for (let i = 0; i < count * 2; i += 2) {
+		if (i !== 0) {
+			result += ','
+		}
+		result += `($${i + 1},$${i + 2})`
+	}
+	return result
 }
 
-const insertApartmentQuery = (
-	helpers: DatabaseHelpers,
-	apartments: Apartment[]
-) => helpers.insert(apartments, templates.insertApartmentTemplate(helpers))
+const templates = {
+	insertApartments: (table: string, number: number) => `
+	INSERT INTO ${table} ("title", "address")
+	VALUES ${tuple(number)}
+	RETURNING apartment_id`,
 
-export { insertApartmentQuery }
+	insertApartmentImages: (table: string, number: number) => `
+	INSERT INTO ${table} ("apartment_id", "url")
+	VALUES ${tuple(number)}`
+}
+
+const insertApartmentsQuery = (
+	client: DatabaseClient,
+	apartments: Apartment[]
+) => {
+	const data = apartments.flatMap(apartment => [
+		apartment.title,
+		apartment.address
+	])
+	return client.as.format(
+		templates.insertApartments(
+			process.env.DB_APARTMENTS_TABLE,
+			apartments.length
+		),
+		data
+	)
+}
+
+const insertApartmentImagesQuery = (
+	client: DatabaseClient,
+	images: PreparedImageURLs
+) =>
+	client.as.format(
+		templates.insertApartmentImages(
+			process.env.DB_APARTMENT_IMAGES_TABLE,
+			images.length / 2
+		),
+		images
+	)
+
+export { insertApartmentsQuery, insertApartmentImagesQuery }
