@@ -1,7 +1,7 @@
 export declare global {
 	namespace NodeJS {
 		interface ProcessEnv {
-			BASE_PAGE_URI: string
+			PAGE_URI: string
 			APARTMENTS_PER_PAGE: string
 			TIMEOUT: number
 			SHOW_BROWSER: string

@@ -1,9 +1,4 @@
-import {
-	Apartment,
-	ApartmentIdObject,
-	DatabaseClient,
-	PreparedImageURLs
-} from '../types/index.js'
+import { Apartment, DatabaseClient, PreparedImageURLs } from '../types/index.js'
 
 function tuple(count: number) {
 	let result = ``

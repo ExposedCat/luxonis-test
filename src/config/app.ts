@@ -1,7 +1,8 @@
-import { Database, DatabaseClient, Parser } from '../types/index.js'
+import { Database, DatabaseClient } from '../types/index.js'
+import { Server } from 'http'
 import { loadEnv, validateEnv } from '../helpers/index.js'
-import { connectToDatabase, startParser } from './index.js'
-import { createApartmentsHandler, destroyParser } from '../services/index.js'
+import { connectToDatabase } from './index.js'
+import { initServer } from './server.js'
 
 async function startApp() {
 	try {
@@ -12,30 +13,34 @@ async function startApp() {
 		process.exit(1)
 	}
 
-	let client: DatabaseClient
+	let databaseClient: DatabaseClient
 	let database: Database
 	try {
 		const connectedDb = await connectToDatabase()
 		database = connectedDb.database
-		client = connectedDb.client
+		databaseClient = connectedDb.client
 	} catch (error) {
 		console.error(`Error occurred while connecting to the database:`, error)
 		process.exit(2)
 	}
 
-	let parser: Parser
+	// FIXME: Add session secret to the ENV
+	const { runServer } = initServer('abc', databaseClient, database)
+	let serverConnection: Server
 	try {
-		parser = await startParser(createApartmentsHandler(database, client))
+		// FIXME: Add server port to the ENV
+		// TODO: Inject database as a dependency
+		serverConnection = runServer(3000)
 	} catch (error) {
-		console.error(`Error occurred while starting the parser:`, error)
+		console.error(`Error occurred while starting the server:`, error)
 		process.exit(3)
 	}
 
-	return stopApp.bind(null, parser)
+	return stopApp.bind(null, serverConnection)
 }
 
-async function stopApp(parser: Parser) {
-	await destroyParser(parser)
+async function stopApp(server: Server) {
+	server.close()
 }
 
 function initApp() {

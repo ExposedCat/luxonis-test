@@ -1,6 +1,6 @@
 function validateEnv() {
 	const required = [
-		'BASE_PAGE_URI',
+		'PAGE_URI',
 		'TIMEOUT',
 		'APARTMENTS_PER_PAGE',
 		'DB_USER',
@@ -24,11 +24,11 @@ function validateEnv() {
 				process.env.DB_PORT = Number(process.env.DB_PORT)
 				break
 			}
-			case 'BASE_PAGE_URI': {
+			case 'PAGE_URI': {
 				try {
-					new URL(process.env.BASE_PAGE_URI)
+					new URL(process.env.PAGE_URI)
 				} catch {
-					throw `ERROR: Variable "BASE_PAGE_URI" is not a valid URL`
+					throw `ERROR: Variable "PAGE_URI" is not a valid URL`
 				}
 				break
 			}
