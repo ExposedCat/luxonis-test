@@ -18,11 +18,10 @@ async function saveApartments(
 		insertedIds = await database.query(apartmentsQuery)
 	} catch (object) {
 		const error = object as Error
-		console.error(
-			`DB | Error: Can't store apartments, because`,
-			error.message
-		)
-		process.exit(1)
+		throw {
+			message: `DB | Error: Can't store apartments`,
+			description: error.message
+		}
 	}
 	let images: PreparedImageURLs = []
 	for (let i = 0; i < insertedIds.length; ++i) {
@@ -32,16 +31,14 @@ async function saveApartments(
 	}
 	try {
 		const imagesQuery = insertApartmentImagesQuery(client, images)
-		console.log(imagesQuery)
 		await database.query(imagesQuery)
 	} catch (object) {
 		// TODO: Drop stored apartments (?)
 		const error = object as Error
-		console.error(
-			`DB | Error: Can't store apartment images, because`,
-			error.message
-		)
-		process.exit(2)
+		throw {
+			message: `DB | Error: Can't store apartment images`,
+			description: error.message
+		}
 	}
 }
 

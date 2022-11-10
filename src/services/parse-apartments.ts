@@ -6,25 +6,25 @@ async function destroyParser(parser: Page) {
 }
 
 // Opens headless browser on a specific page
-async function createParser() {
+async function createParser(limit: number) {
 	const parser = await puppeteer.launch({
 		headless: process.env.SHOW_BROWSER !== 'true'
 	})
 	const page = await parser.newPage()
-	const host = new URL(process.env.BASE_PAGE_URI).host
+	const host = new URL(process.env.PAGE_URI).host
 	await page.setCookie({
 		name: 'per_page',
-		value: process.env.APARTMENTS_PER_PAGE,
+		value: limit.toString(),
 		domain: host
 	})
-	await page.goto(process.env.BASE_PAGE_URI + 1, {
+	await page.goto(process.env.PAGE_URI, {
 		waitUntil: ['domcontentloaded']
 	})
-	// TODO: Deal with cookies popup
+	// TODO: Deal with cookies popup (?)
 	return page
 }
 
-function parseApartments(
+function parseDOM(
 	apartments: Element[],
 	titleSelector: string,
 	imageSelector: string,
@@ -50,26 +50,29 @@ function parseApartments(
 	})
 }
 
-async function parsePage(page: Page): Promise<Apartment[]> {
+async function parseApartments(limit: number): Promise<Apartment[]> {
+	const parser = await createParser(limit)
 	try {
-		await page.waitForSelector(Selector.APARTMENT, {
+		await parser.waitForSelector(Selector.APARTMENT, {
 			timeout: process.env.TIMEOUT
 		})
 	} catch (error) {
 		// Capture screen at the moment of error
-		await page.screenshot({
+		// TODO: Move path to environment
+		await parser.screenshot({
 			path: './error.png'
 		})
 		throw error
 	}
-	const apartments = await page.$$eval(
+	const apartments = await parser.$$eval(
 		Selector.APARTMENT,
-		parseApartments,
+		parseDOM,
 		Selector.TITLE,
 		Selector.IMAGE,
 		Selector.ADDRESS
 	)
+	await destroyParser(parser)
 	return apartments
 }
 
-export { createParser, parsePage, destroyParser }
+export { createParser, parseApartments, destroyParser }
