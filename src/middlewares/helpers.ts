@@ -5,7 +5,7 @@ import ejsLayouts from 'express-ejs-layouts'
 import session from 'express-session'
 import helmet, { HelmetOptions } from 'helmet'
 
-import { createPassDatabaseMiddleware } from './index.js'
+import { injectDependencies } from './index.js'
 import { resolvePath } from '../helpers/resolve-path.js'
 
 function setMiddlewares(
@@ -38,10 +38,16 @@ function setMiddlewares(
 	)
 
 	app.use(ejsLayouts)
-	app.use(express.static(resolvePath(import.meta.url, '../public')))
+	app.use('/', express.static(resolvePath(import.meta.url, '../public')))
 
 	// Business logic middlewares
-	app.use(createPassDatabaseMiddleware(databaseClient, database))
+	const apartmentImagesPath = resolvePath(
+		// TODO: Rewrite path resolver
+		`file://${resolvePath(import.meta.url, '../..')}/image.png`,
+		process.env.IMAGES_PATH
+	)
+	app.use('/image', express.static(apartmentImagesPath))
+	app.use(injectDependencies(databaseClient, database, apartmentImagesPath))
 }
 
 export { setMiddlewares }

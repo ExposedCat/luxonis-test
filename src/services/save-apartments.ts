@@ -1,3 +1,5 @@
+import { downloadFile } from '../helpers/download-file.js'
+import { resolvePath } from '../helpers/resolve-path.js'
 import {
 	Apartment,
 	ApartmentIdObject,
@@ -7,10 +9,15 @@ import {
 } from '../types/index.js'
 import { insertApartmentsQuery, insertApartmentImagesQuery } from './index.js'
 
+function parseImageName(url: string) {
+	return url.split('/')[5]?.split('?')?.[0] || 'unnamed.jpeg'
+}
+
 async function saveApartments(
 	database: Database,
 	client: DatabaseClient,
-	apartments: Apartment[]
+	apartments: Apartment[],
+	imagesPath: string
 ) {
 	let insertedIds: ApartmentIdObject[] = []
 	try {
@@ -26,7 +33,18 @@ async function saveApartments(
 	let images: PreparedImageURLs = []
 	for (let i = 0; i < insertedIds.length; ++i) {
 		for (const url of apartments[i].images) {
-			images.push(insertedIds[i].apartment_id, url)
+			const name = parseImageName(url)
+			try {
+				await downloadFile(url, imagesPath, name)
+			} catch (object) {
+				const error = object as Error
+				throw {
+					// TODO: Move errors to separate file (?)
+					message: `DB | Error: Can't store apartment images`,
+					description: error.message
+				}
+			}
+			images.push(insertedIds[i].apartment_id, name)
 		}
 	}
 	try {
@@ -42,9 +60,13 @@ async function saveApartments(
 	}
 }
 
-function createApartmentsHandler(database: Database, client: DatabaseClient) {
+function createApartmentsHandler(
+	database: Database,
+	client: DatabaseClient,
+	imagesPath: string
+) {
 	return (apartments: Apartment[]) =>
-		saveApartments(database, client, apartments)
+		saveApartments(database, client, apartments, imagesPath)
 }
 
 export { saveApartments, createApartmentsHandler }

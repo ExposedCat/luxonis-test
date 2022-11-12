@@ -1,20 +1,22 @@
 function validateEnv() {
+	// TODO: Move to function arguments
 	const required = [
 		'PAGE_URI',
 		'TIMEOUT',
-		'APARTMENTS_PER_PAGE',
 		'DB_USER',
 		'DB_PASSWORD',
 		'DB_HOST',
 		'DB_PORT',
 		'DB_NAME',
 		'DB_APARTMENTS_TABLE',
-		'DB_APARTMENT_IMAGES_TABLE'
+		'DB_APARTMENT_IMAGES_TABLE',
+		'IMAGES_PATH'
 	]
 	for (const env of required) {
 		if (process.env[env] === undefined) {
 			throw `ERROR: Required variable "${env}" is  not specified`
 		}
+		// TODO: Move to functions-validators
 		switch (env) {
 			case 'TIMEOUT': {
 				process.env.TIMEOUT = Number(process.env.TIMEOUT)

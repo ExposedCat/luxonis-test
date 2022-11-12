@@ -1,9 +1,10 @@
 import { Database, DatabaseClient } from '../types/index.js'
 import { Request, Response, NextFunction } from 'express'
 
-function createPassDatabaseMiddleware(
+function injectDependencies(
 	client: DatabaseClient,
-	database: Database
+	database: Database,
+	apartmentImagesPath: string
 ) {
 	return async function passDatabase(
 		req: Request,
@@ -12,8 +13,9 @@ function createPassDatabaseMiddleware(
 	) {
 		req.database = database
 		req.databaseClient = client
+		req.imagesPath = apartmentImagesPath
 		next()
 	}
 }
 
-export { createPassDatabaseMiddleware }
+export { injectDependencies }

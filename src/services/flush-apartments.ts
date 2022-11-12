@@ -15,6 +15,7 @@ async function flushApartments(
 			description: error.message
 		}
 	}
+	// TODO: Flush images
 }
 
 export { flushApartments }

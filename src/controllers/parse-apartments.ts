@@ -11,7 +11,12 @@ const handler: BasicHandler = async (req, res, next) => {
 	try {
 		const apartmentsNumber = Number(req.body.apartmentsNumber)
 		const apartments = await parseApartments(apartmentsNumber)
-		await saveApartments(req.database, req.databaseClient, apartments)
+		await saveApartments(
+			req.database,
+			req.databaseClient,
+			apartments,
+			req.imagesPath
+		)
 		respond(res, ResultType.Success, ResponseName.Respond)
 	} catch (error) {
 		console.error(error)

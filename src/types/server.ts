@@ -39,6 +39,7 @@ declare global {
 		export interface Request {
 			database: Database
 			databaseClient: DatabaseClient
+			imagesPath: string
 		}
 	}
 }
