@@ -1,0 +1,13 @@
+<div class="apartments">
+	<%for (const apartment of apartments) { %>
+	<div class="apartment">
+		<p>Title: <%= apartment.title %></p>
+		<p>Address: <%= apartment.address %></p>
+		<div class="images">
+			<%for (const image of apartment.images) { %>
+			<img src="<%= image %>" />
+			<% } %>
+		</div>
+	</div>
+	<% } %>
+</div>

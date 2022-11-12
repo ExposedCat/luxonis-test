@@ -6,7 +6,8 @@ import {
 	pageNotFoundControllerData,
 	getApartmentsControllerData,
 	flushApartmentsControllerData,
-	parseApartmentsControllerData
+	parseApartmentsControllerData,
+	viewApartmentsControllerData
 } from './index.js'
 
 function setHandler(app: Express, handlerData: HandlerData) {
@@ -26,6 +27,10 @@ function setHandler(app: Express, handlerData: HandlerData) {
 }
 
 function setHandlers(app: Express) {
+	// View
+	setHandler(app, viewApartmentsControllerData)
+
+	// API
 	setHandler(app, rootControllerData)
 
 	setHandler(app, parseApartmentsControllerData)

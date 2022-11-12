@@ -1,10 +1,12 @@
+import { Database, DatabaseClient } from '../types/index.js'
+
 import express, { Express } from 'express'
-import helmet, { HelmetOptions } from 'helmet'
+import ejsLayouts from 'express-ejs-layouts'
 import session from 'express-session'
+import helmet, { HelmetOptions } from 'helmet'
 
 import { createPassDatabaseMiddleware } from './index.js'
-import { Database } from '../types/database.js'
-import { DatabaseClient } from '../types/index.js'
+import { resolvePath } from '../helpers/resolve-path.js'
 
 function setMiddlewares(
 	app: Express,
@@ -34,6 +36,9 @@ function setMiddlewares(
 			extended: true
 		})
 	)
+
+	app.use(ejsLayouts)
+	app.use(express.static(resolvePath(import.meta.url, '../public')))
 
 	// Business logic middlewares
 	app.use(createPassDatabaseMiddleware(databaseClient, database))
