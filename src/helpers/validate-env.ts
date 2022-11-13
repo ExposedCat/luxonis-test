@@ -3,6 +3,7 @@ function validateEnv() {
 	const required = [
 		'PAGE_URI',
 		'TIMEOUT',
+		'APP_PORT',
 		'DB_USER',
 		'DB_PASSWORD',
 		'DB_HOST',
@@ -18,6 +19,10 @@ function validateEnv() {
 		}
 		// TODO: Move to functions-validators
 		switch (env) {
+			case 'APP_PORT': {
+				process.env.APP_PORT = Number(process.env.APP_PORT)
+				break
+			}
 			case 'TIMEOUT': {
 				process.env.TIMEOUT = Number(process.env.TIMEOUT)
 				break

@@ -26,13 +26,6 @@
     <li>Well-readable git repository with a beautiful README</li>
 </ul>
 
-<!-- <div align="center">
-    <h2>💼 TODO</h2>
-</div>
-<ul>
-    <li><s>Task</s></a></li>
-</ul> -->
-
 <div align="center">
     <h2>⚙️ Stack</h2>
 </div>
@@ -62,7 +55,10 @@ git clone https://github.com/ExposedCat/luxonis-test.git
 cd luxonis-test
 ```
 
-3. Create copy of `.env-example` called `.env` and replace example data with yours
+3. Create copy of `.env-example` called `.env` and replace example data with yours  
+
+⚠️ Use database container name as a database host if running via Docker/Podman  
+
 4. Start app:
 
 ```bash

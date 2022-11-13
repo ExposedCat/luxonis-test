@@ -1,5 +1,24 @@
 version: '3.8'
 services:
+    sreality-parser-db:
+        image: postgres:latest
+        container_name: sreality-parser-db
+        restart: unless-stopped
+        volumes:
+            - postgresqldata:/var/lib/postgresql/data
+        build:
+            dockerfile: ./Dockerfile.db
+        ports:
+            - ${DB_PORT}:${DB_PORT}
+        environment:
+            POSTGRES_USER: ${DB_USER}
+            POSTGRES_PASSWORD: ${DB_PASSWORD}
     sreality-parser:
         image: sreality-parser
         container_name: sreality-parser
+        depends_on:
+            - sreality-parser-db
+        ports:
+            - ${APP_PORT}:${APP_PORT}
+volumes:
+    postgresqldata:

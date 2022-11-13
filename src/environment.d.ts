@@ -4,6 +4,7 @@ export declare global {
 			PAGE_URI: string
 			TIMEOUT: number
 			SHOW_BROWSER: string
+			APP_PORT: number
 			DB_USER: string
 			DB_PASSWORD: string
 			DB_HOST: string

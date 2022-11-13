@@ -28,9 +28,7 @@ async function startApp() {
 	const { runServer } = initServer('abc', databaseClient, database)
 	let serverConnection: Server
 	try {
-		// FIXME: Add server port to the ENV
-		// TODO: Inject database as a dependency
-		serverConnection = runServer(3000)
+		serverConnection = runServer(process.env.APP_PORT)
 	} catch (error) {
 		console.error(`Error occurred while starting the server:`, error)
 		process.exit(3)

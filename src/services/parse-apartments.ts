@@ -8,7 +8,9 @@ async function destroyParser(parser: Page) {
 // Opens headless browser on a specific page
 async function createParser(limit: number) {
 	const parser = await puppeteer.launch({
-		headless: process.env.SHOW_BROWSER !== 'true'
+		headless: process.env.SHOW_BROWSER !== 'true',
+		executablePath: '/usr/bin/google-chrome',
+		args: ['--no-sandbox', '--disable-gpu']
 	})
 	const page = await parser.newPage()
 	const host = new URL(process.env.PAGE_URI).host
@@ -52,18 +54,9 @@ function parseDOM(
 
 async function parseApartments(limit: number): Promise<Apartment[]> {
 	const parser = await createParser(limit)
-	try {
-		await parser.waitForSelector(Selector.APARTMENT, {
-			timeout: process.env.TIMEOUT
-		})
-	} catch (error) {
-		// Capture screen at the moment of error
-		// TODO: Move path to environment
-		await parser.screenshot({
-			path: './error.png'
-		})
-		throw error
-	}
+	await parser.waitForSelector(Selector.APARTMENT, {
+		timeout: process.env.TIMEOUT
+	})
 	const apartments = await parser.$$eval(
 		Selector.APARTMENT,
 		parseDOM,
