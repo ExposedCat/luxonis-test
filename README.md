@@ -14,6 +14,11 @@
 </div>
 
 <div align="center">
+    <h2>📄 Documentation</h2>
+    <p>API documentation can be found <a href="./DOCS.md">here</a></p>
+</div>
+
+<div align="center">
     <h2>⭐️ Features</h2>
 </div>
 <ul>
@@ -30,9 +35,10 @@
     <h2>⚙️ Stack</h2>
 </div>
 <ul>
-    <li>Parsing tool: Puppeteer</li>
     <li>Programming language: TypeScript</li>
-    <li>Running tools: Node.JS</li>
+    <li>Libraries: Puppeteer, Express</li>
+    <li>UI: EJS, EJS-Layouts</li>
+    <li>Running tools: Node.JS, Docker</li>
 </ul>
 
 <div align="center">
@@ -40,35 +46,7 @@
 </div>
 
 <div align="center">
-    <h2>via pure Node.JS</h2>
-</div>
-
-1. Clone this repo:
-
-```bash
-git clone https://github.com/ExposedCat/luxonis-test.git
-```
-
-2. Go to the project root:
-
-```bash
-cd luxonis-test
-```
-
-3. Create copy of `.env-example` called `.env` and replace example data with yours  
-
-⚠️ Use database container name as a database host if running via Docker/Podman  
-
-4. Start app:
-
-```bash
-npm start
-```
-
-**Done**.
-
-<div align="center">
-    <h2>via Docker</h2>
+    <h3>via pure Node.JS</h3>
 </div>
 
 1. Clone this repo:
@@ -84,56 +62,46 @@ cd luxonis-test
 ```
 
 3. Create copy of `.env-example` called `.env` and replace example data with yours
-4. Start app  
-   4.1. Via bash script:
+- Use database container name as a database host if running via Docker/Podman
 
-    ```bash
-    bash ./run-docker
-    ```
+4. Start app:
 
-    OR  
-
-    Give a try to the [Podman](https://podman.io/) - modern Docker-compatible containerization utility:
-
-    ```bash
-    bash ./run-podman
-    ```
-
-    4.2. Manually  
-    4.2.1. Build image:
-
-    ```bash
-    docker build -t sreality-parser .
-    ```
-    OR
-
-    ```bash
-    podman build -t sreality-parser .
-    ```
-
-    4.2.2. Run image:
-
-    ```bash
-    docker-compose up -d --build
-    ```
-
-    OR
-
-    ```bash
-    podman-compose up -d --build
-    ```
-  
-**Done**.
+```bash
+npm start
+```
 
 <div align="center">
-    <h2>🔩 Dependencies</h2>
+    <h3>via Docker</h3>
 </div>
-<h3>Production</h3>
-<ul>
-    <li>Puppeteer</li>
-</ul>
-<h3>Development</h3>
-<ul>
-    <li>TypeScript</li>
-    <li>Prettier</li>
-</ul>
+
+1. Clone this repo:
+
+```bash
+git clone https://github.com/ExposedCat/luxonis-test.git
+```
+
+2. Go to the project root:
+
+```bash
+cd luxonis-test
+```
+
+3. Create copy of `.env-example` called `.env` and replace example data with yours
+4. Start app
+```bash
+bash ./run-docker
+```
+- OR
+
+```bash
+bash ./run-podman
+```
+5. Stop app
+```bash
+bash ./stop-docker
+```
+
+- OR
+```bash
+bash ./stop-podman
+```
